@@ -1,0 +1,262 @@
+/*========================================================
+ |                                                       |
+ |                  Bootstrap Overrides                  | 
+ |                                                       |
+ ======================================================*/
+html {
+     background-color:rgba(121, 134, 172,0.1);
+     /* overflow-y: hidden; */
+     scroll-behavior: smooth;
+ }
+
+ p {
+     text-align: justify;
+ }
+ .container-fluid {
+    padding: 0 !important;
+    overflow-x: hidden;
+}
+
+.main-dash-container {
+    min-height: auto !important;
+}
+
+/*===========================================
+ |                                          |
+ |                  Global                  | 
+ |                                          |
+ =========================================*/
+.App {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+}
+
+    .App p {
+        margin: 0;
+        padding: 0;
+    }
+
+h1 {
+    text-align: center;
+}
+
+h2 {
+    color: black;
+    text-align: center;
+}
+
+.h2-section {
+    background-color: 'yellow' !important;
+    color: #2196f3 !important;
+    text-align: left;
+}
+
+.center-text { 
+    text-align: center;
+}
+
+.btn-close {
+    background-color: rgba(0,0,0,0.0);
+    border: none;
+    font-size: 24px;
+    top: 0;
+    right: 10px;
+    position: absolute;
+    
+}
+
+.btn-lg {
+    background-color: skyblue !important;
+    color: #000000 !important;
+    height: 3em;
+}
+
+.btn-good {
+    background-color: limegreen !important;
+}
+
+.btn-bad {
+    background-color: red !important;
+}
+
+.full-height-big {
+    background-color: rgba(239,240,241,0.45);
+    overflow-y: auto;
+    height: 94vh;
+}
+
+.full-height-mini {
+    background-color: rgba(239,240,241,0.45);
+    overflow-y: auto;
+    height: 92vh;
+}
+
+.form-control .input {
+  padding: 0.5em auto !important;
+}
+
+.logo-big {
+    display: block;
+    margin: 0 auto;
+    width: 266px;
+    height: 200px;
+}
+
+.logo-mini {
+    width: 40px;
+    height: 30px;
+}
+
+.middle-align {
+    display: block;
+    margin: 0 auto;
+}
+
+
+.container-fluid.spark--main-container.backdrop.full-height,
+.container-fluid.spark--main-container.backdrop.full-height-big,
+.container-fluid.spark--main-container.backdrop.full-height-mini {
+    margin-top: 2em !important;
+    /* padding-bottom: 2em !important; */
+    height: calc(100vh - 2em);
+}
+
+nav {
+    align-items: center;
+    background: rgba(73, 79, 82, 1.0);
+    color: #ffffff;
+    display: flex;
+    justify-content: space-around;
+    margin: 0;
+    padding: 0 2em;
+    position: fixed;
+    z-index: 999;
+    width: 100%;
+    height: 2em;
+    top: 0;
+    left: 0;
+}
+
+.nav-links {
+    align-items: center;
+    display: flex;
+    float: right;
+    justify-content: space-around;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    width: 90%;
+}
+
+    .nav-links a,
+    .nav-links a:hover,
+    .nav-links a:visited {
+                    color: white;
+    }
+
+/*==========================================================
+ |                                                         |
+ |                  Functional Components                  | 
+ |                                                         |
+ =========================================================*/
+/*================================================
+ |                  Page Header                  |
+ ==============================================*/
+ .back-button {
+    margin-left: 4vw;
+}
+
+ .title-container {
+    /* background-color: rgba(0,106,217,0.25); */
+    background-color: rgba(46,204,64,0.25);
+    color: #494f52;
+    padding: 0 0 0.5em 0;
+}
+
+.title-text {
+    font-weight: bold;
+    font-size: 36px;
+    text-align: center;
+}
+
+.hr {
+    margin: 0;
+    padding: 0;
+}
+
+/*============================================
+ |                  Content                  |
+ ==========================================*/
+.content {
+    box-shadow: 0px 1px 5px 0px #000000;
+    margin: 0 auto 3em auto;
+    padding: 3em 1em;
+}
+
+/*============================================
+ |                 Login.js                  |
+ ==========================================*/
+.emph-message {
+    background-color: rgba(121, 134, 172,1.0);
+    color: rgba(235,235,235,1.0);
+    display: block;
+    margin: 0 auto;
+    padding: 0.5em 0;
+    width: 80%;
+}
+
+    .emph-message a {
+        color: skyblue;
+        text-decoration: underline;
+    }
+
+.login-clear {
+    margin: 0 2em 0 0;
+}
+
+.login-content-container-big {
+    margin: 15vh auto 0 auto !important;
+    width: 60%;
+}
+
+.login-content-container-mini {
+    margin: 2vh auto 2vh auto;
+    width: 100%;
+}
+
+.login-tile {
+    display: block; 
+    margin: 0 auto; 
+    width: 80%;
+}
+    .login-tile .row {
+        margin: 2.5em 0 2.5em 0;
+    }
+    .login-tile input {
+        width: 100%;
+    }
+
+.login-button-container {
+    float: right;
+    padding: 0 2em 0 0;
+}
+
+
+/*=============================================
+ |                  About.js                  |
+ ===========================================*/
+#about p {
+    padding-bottom: 1em;
+}
+
+/* DeckCollection */
+.deck-row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100px;
+    /* border-bottom: 2px solid #000000; */
+}
