@@ -12,8 +12,6 @@ class Home extends Component {
   constructor(props) {
     super(props);
 
-    this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
-    this.toggleNav = this.toggleNav.bind(this);
     this.state = {
       username: '',
       password: '',
@@ -40,14 +38,9 @@ class Home extends Component {
     window.removeEventListener('resize', this.updateWindowDimensions);
   }
 
-  updateWindowDimensions() {
-    this.setState({
-      width: window.innerWidth,
-      height: window.innerHeight
-    });
-  }
+  updateWindowDimensions = () => this.setState({ width: window.innerWidth, height: window.innerHeight });
 
-  toggleNav() {
+  toggleNav = () => {
     document.getElementById('universal-nav').style.display === 'block' ? this.props.hideNav() : this.props.showNav();
     this.setState({
       navState: !this.state.navState

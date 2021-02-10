@@ -5,11 +5,8 @@ import { decrement, increment } from '../reducers/counterReducer';              
 import '../css/App.css';                                                            /* CSS */
 
 class Counter extends Component {
-  constructor() {
-    super();
-    this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
-    this.handleIncrement = this.handleIncrement.bind(this);
-    this.handleDecrement = this.handleDecrement.bind(this);
+  constructor(props) {
+    super(props);
     this.state = {
       width: window.innerWidth,
       height: window.innerHeight
@@ -24,15 +21,15 @@ class Counter extends Component {
     window.removeEventListener('resize', this.updateWindowDimensions);
   }
 
-  updateWindowDimensions() {
+  updateWindowDimensions = () => {
     this.setState({
       width: window.innerWidth,
       height: window.innerHeight
     });
   }
 
-  handleIncrement() { this.props.increment(); }
-  handleDecrement() { this.props.decrement(); }
+  handleIncrement = () => this.props.increment();
+  handleDecrement = () => this.props.decrement();
 
   render() {
     return (
@@ -48,10 +45,6 @@ class Counter extends Component {
   };
 }
 
-function mapStateToProps(state) {
-  return {
-    count: state.counterReducer.count
-  };
-};
+const mapStateToProps = state => ({ count: state.counterReducer.count });
 
 export default connect(mapStateToProps, { decrement, increment })(Counter);

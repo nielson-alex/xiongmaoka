@@ -3,30 +3,18 @@ import { connect } from 'react-redux';
 import '../css/App.css';                        /* CSS */
 
 class Post extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
 
-        this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
         this.state = {
             width: window.innerWidth,
             height: window.innerHeight
         };
     }
 
-    componentDidMount() {
-        window.addEventListener('resize', this.updateWindowDimensions);
-    }
-
-    componentWillUnmount() {
-        window.removeEventListener('resize', this.updateWindowDimensions);
-    }
-
-    updateWindowDimensions() {
-        this.setState({
-            width: window.innerWidth,
-            height: window.innerHeight
-        });
-    }
+    componentDidMount = () => window.addEventListener('resize', this.updateWindowDimensions);
+    componentWillUnmount = () => window.removeEventListener('resize', this.updateWindowDimensions);
+    updateWindowDimensions = () => this.setState({ width: window.innerWidth, height: window.innerHeight });
 
     fetchItem = async () => {
         const itemDetails = await fetch(
@@ -67,14 +55,8 @@ const mapStateToProps = (state, ownProps) => {
     return {
         post: state.posts.find((post) => post.id === id)
     };
-};
+}
 
-const mapDispatchToProps = (dispatch) => {
-    return {
-        deletePost: (id) => {
-            dispatch({ type: 'DELETE_POST', id: id });
-        },
-    };
-};
+const mapDispatchToProps = (dispatch) => ({ deletePost: (id) => dispatch({ type: 'DELETE_POST', id: id }) });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Post);

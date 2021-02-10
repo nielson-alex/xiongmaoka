@@ -13,11 +13,6 @@ class EditDeck extends Component {
     constructor(props) {
         super(props);
 
-        this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
-        this.handleChange = this.handleChange.bind(this);
-        this.handleBlur = this.handleBlur.bind(this);
-        this.handleUpdateDeckName = this.handleUpdateDeckName.bind(this);
-        this.cardFieldsValid = this.cardFieldsValid.bind(this);
         this.state = {
             cards: [],
             deckName: '',
@@ -34,7 +29,7 @@ class EditDeck extends Component {
         }
     }
 
-    componentDidMount() {
+    componentDidMount = () => {
         this._isMounted = true;
         window.addEventListener('resize', this.updateWindowDimensions);
 
@@ -62,12 +57,12 @@ class EditDeck extends Component {
         }
     }
 
-    componentWillUnmount() {
+    componentWillUnmount = () => {
         window.removeEventListener('resize', this.updateWindowDimensions);
         this._isMounted = false;
     }
 
-    updateWindowDimensions() {
+    updateWindowDimensions = () => {
         this.setState({
             query: {},
             width: window.innerWidth,
@@ -75,7 +70,7 @@ class EditDeck extends Component {
         });
     }
 
-    handleChange(e) {
+    handleChange = e => {
         let idIndex = e.target.id.indexOf('-');
         let id = parseInt(e.target.id.substr(0, idIndex), 10);
         let cardIndex = this.props.cards.map(card => card.id).indexOf(id);
@@ -92,7 +87,7 @@ class EditDeck extends Component {
         });
     }
 
-    handleBlur(e) {
+    handleBlur = e => {
         if (this.state.selectedCard.id > 0) {
             let value = this.state.selectedCard[e.target.name];
 
@@ -146,7 +141,7 @@ class EditDeck extends Component {
         }
     }
 
-    handleUpdateDeckName(e) {
+    handleUpdateDeckName = e => {
         if (e.target.value !== '') {
             POST('/updateDeckName', {
                 deck_id: parseInt(this.props.match.params.id, 10),
@@ -194,7 +189,7 @@ class EditDeck extends Component {
         return fieldsValid;
     }
 
-    handlePinyin(val) {
+    handlePinyin = val => {
         let pinyin = val
         pinyin = pinyin.replace("a1", "ā");
         pinyin = pinyin.replace("a2", "á");
@@ -298,12 +293,10 @@ class EditDeck extends Component {
     }
 }
 
-function mapStateToProps(state) {
-    return {
-        cards: state.deckReducer.cards,
-        decks: state.deckReducer.decks,
-        user: state.userReducer.user
-    };
-}
+const mapStateToProps = state => ({
+    cards: state.deckReducer.cards,
+    decks: state.deckReducer.decks,
+    user: state.userReducer.user
+});
 
 export default connect(mapStateToProps, { saveCardsToState, saveDecksToState })(EditDeck);

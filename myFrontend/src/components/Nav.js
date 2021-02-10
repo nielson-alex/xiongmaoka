@@ -10,15 +10,9 @@ import '../css/App.css';                                                      /*
 import '../css/nav.css';
 
 class Nav extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
 
-    this.mobileMenuIcon = React.createRef();
-    this.navOptionsRowCont = React.createRef();
-    this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
-    this.outsideClick = this.outsideClick.bind(this);
-    this.menuClick = this.menuClick.bind(this);
-    this.handleShowMenu = this.handleShowMenu.bind(this);
     this.state = {
       clickedNavIcon: false,
       navMenuOpen: false,
@@ -28,23 +22,13 @@ class Nav extends Component {
     };
   }
 
-  async componentDidMount() {
-    window.addEventListener('resize', this.updateWindowDimensions);
+  componentDidMount = () => window.addEventListener('resize', this.updateWindowDimensions);
+  componentWillUnmount = () => window.removeEventListener('resize', this.updateWindowDimensions);
+  updateWindowDimensions = () => this.setState({ width: window.innerWidth, height: window.innerHeight });
 
-  }
-
-  componentWillUnmount() {
-    window.removeEventListener('resize', this.updateWindowDimensions);
-  }
-
-  updateWindowDimensions() {
-    this.setState({
-      width: window.innerWidth,
-      height: window.innerHeight
-    });
-  }
-
-  outsideClick() {
+  menuClick = () => this.setState({ showMenu: !this.state.showMenu });
+  handleShowMenu = () => this.setState({ showMenu: !this.state.showMenu });
+  outsideClick = () => {
     let { current } = this.navOptionsRowCont
     if (this.state.navMenuOpen === false) {
       this.setState({ navMenuOpen: false });
@@ -55,14 +39,6 @@ class Nav extends Component {
         this.setState({ navMenuOpen: false });
       }, 100);
     }
-  }
-
-  menuClick() { this.setState({ showMenu: !this.state.showMenu }); }
-
-  handleShowMenu() {
-    this.setState({
-      showMenu: !this.state.showMenu
-    });
   }
 
   render() {
@@ -151,11 +127,6 @@ class Nav extends Component {
   }
 }
 
-function mapStateToProps(state) {
-  return {
-    ...state,
-    user: state.userReducer.user
-  }
-}
+const mapStateToProps = state => ({ user: state.userReducer.user });
 
 export default connect(mapStateToProps, { logout, saveCardsToState, saveDecksToState })(Nav);

@@ -11,16 +11,6 @@ class Deck extends Component {
     constructor(props) {
         super(props);
 
-        this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
-        this.handleStartTest = this.handleStartTest.bind(this);
-        this.handleKeyDown = this.handleKeyDown.bind(this);
-        this.handleSubmitAnswer = this.handleSubmitAnswer.bind(this);
-        this.handleSkip = this.handleSkip.bind(this);
-        this.openModal = this.openModal.bind(this);
-        this.closeModal = this.closeModal.bind(this);
-        this.getRandom = this.getRandom.bind(this);
-        this.handleReset = this.handleReset.bind(this);
-        this.handleShowHint = this.handleShowHint.bind(this);
         this.state = {
             answer: '',
             cards: [{
@@ -47,7 +37,7 @@ class Deck extends Component {
         Modal.setAppElement('div');
     }
 
-    async componentDidMount() {
+    componentDidMount = () => {
         this._isMounted = true;
         window.addEventListener('resize', this.updateWindowDimensions);
 
@@ -56,8 +46,9 @@ class Deck extends Component {
         let deckName = this.props.decks[idx].deck_name;
         let cards = [];
 
+        console.log(this.props.match.params.id);
         for (let i = 0; i < this.props.cards.length; i++) {
-            if (this.props.cards[i].deck_id === parseInt(this.props.match.params.id, 10)) {
+            if (parseInt(this.props.cards[i].deck_id, 10) === parseInt(this.props.match.params.id, 10)) {
                 cards.push({
                     id: this.props.cards[i].id,
                     deck_id: this.props.cards[i].deck_id,
@@ -72,40 +63,25 @@ class Deck extends Component {
 
         cards.sort((a, b) => a.card_num > b.card_num ? 1 : -1);
 
+        console.log(this.props);
         if (this._isMounted === true) {
             this.setState({
                 deckName: deckName,
                 cards: cards
-            });
+            }, () => console.log(this.state));
         }
     }
 
-    componentWillUnmount() {
+    componentWillUnmount = () => {
         window.removeEventListener('resize', this.updateWindowDimensions);
         this._isMounted = false;
     }
 
-    updateWindowDimensions() {
-        this.setState({
-            width: window.innerWidth,
-            height: window.innerHeight
-        });
-    }
+    updateWindowDimensions = () => this.setState({ width: window.innerWidth, height: window.innerHeight });
+    openModal = () => this.setState({ showModal: !this.state.showModal });
+    closeModal = () => this.setState({ cards: this.props.cards, showModal: !this.state.showModal });
 
-    openModal() {
-        this.setState({
-            showModal: !this.state.showModal
-        });
-    }
-
-    closeModal() {
-        this.setState({
-            cards: this.props.cards,
-            showModal: !this.state.showModal
-        });
-    }
-
-    handleStartTest(e) {
+    handleStartTest = e => {
         if (this.state.cycles < 1) {
             generateMessage('error', 'Review session duration requires each card be correctly answered at least 1 time');
         } else if (this.state.cycles > 10) {
@@ -121,13 +97,9 @@ class Deck extends Component {
         }
     }
 
-    handleKeyDown(e) {
-        if (e.key === 'Enter') {
-            this.handleSubmitAnswer();
-        }
-    }
+    handleKeyDown = e => e.key === 'Enter' ? this.handleSubmitAnswer() : null;
 
-    handleSubmitAnswer() {
+    handleSubmitAnswer = () => {
         let cards = [];
         let modifiedCards = [];
         const testLang = this.state.testMode === 'enToZh' ? 'chinese' : 'english';
@@ -183,15 +155,14 @@ class Deck extends Component {
         }
     }
 
-    handleSkip() {
+    handleSkip = () =>
         this.setState({
             answer: '',
             currentCard: this.getRandom(),
             showHint: false
         });
-    }
 
-    getRandom() {
+    getRandom = () => {
         let rand = Math.floor(Math.random() * ((this.state.cards.length - 1) - 0)) + 0;
 
         if (rand === this.state.currentCard) {
@@ -201,7 +172,7 @@ class Deck extends Component {
         return rand;
     }
 
-    async handleReset() {
+    handleReset = () => {
         let id = parseInt(this.props.match.params.id, 10);
         let idx = this.props.decks.map(deck => deck.deck_id).indexOf(id);
         let deckName = this.props.decks[idx].deck_name;
@@ -232,11 +203,7 @@ class Deck extends Component {
         }
     }
 
-    handleShowHint() {
-        this.setState({
-            showHint: !this.state.showHint
-        });
-    }
+    handleShowHint = () => this.setState({ showHint: !this.state.showHint });
 
     render() {
         let bOrM = this.state.width > 768 ? '-big' : '-mini';
@@ -428,11 +395,6 @@ class Deck extends Component {
     };
 }
 
-function mapStateToProps(state) {
-    return {
-        cards: state.deckReducer.cards,
-        decks: state.deckReducer.decks
-    };
-}
+const mapStateToProps = state => ({ cards: state.deckReducer.cards, decks: state.deckReducer.decks });
 
 export default connect(mapStateToProps)(Deck);

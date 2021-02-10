@@ -29,41 +29,15 @@ class LogIn extends Component {
         };
     }
 
-    componentDidMount() {
-        window.addEventListener('resize', this.updateWindowDimensions);
-    }
+    componentDidMount = () => window.addEventListener('resize', this.updateWindowDimensions);
+    componentWillUnmount = () => window.removeEventListener('resize', this.updateWindowDimensions);
+    updateWindowDimensions = () => this.setState({ width: window.innerWidth, height: window.innerHeight });
 
-    componentWillUnmount() {
-        window.removeEventListener('resize', this.updateWindowDimensions);
-    }
+    handleChange = e => this.setState({ [e.target.name]: e.target.value });
+    handleKeyDown = e => e.key === 'Enter' ? this.handleSubmit(e) : null;
+    handleClear = () => this.setState({ username: '', password: '' });
 
-    updateWindowDimensions() {
-        this.setState({
-            width: window.innerWidth,
-            height: window.innerHeight
-        });
-    }
-
-    handleChange(e) {
-        this.setState({
-            [e.target.name]: e.target.value
-        });
-    }
-
-    handleKeyDown(e) {
-        if (e.key === 'Enter') {
-            this.handleSubmit(e);
-        }
-    }
-
-    handleClear() {
-        this.setState({
-            username: '',
-            password: ''
-        });
-    }
-
-    async handleSubmit(e) {
+    handleSubmit = async e => {
         e.preventDefault();
         let userInfo = await fetch('/getUserInfo', {
             method: 'GET',
@@ -124,7 +98,7 @@ class LogIn extends Component {
         }
     }
 
-    allFieldsValid() {
+    allFieldsValid = () => {
         let allFieldsValid = true;
 
         if (this.state.username === '') {
@@ -245,10 +219,6 @@ class LogIn extends Component {
     };
 }
 
-function mapStateToProps(state) {
-    return {
-        user: state.userReducer.user
-    };
-}
+const mapStateToProps = state => ({ user: state.userReducer.user });
 
 export default connect(mapStateToProps, { login, saveDecksToState, saveCardsToState, deleteState })(LogIn);

@@ -13,14 +13,6 @@ class FlashcardsDash extends Component {
     constructor(props) {
         super(props);
 
-        this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
-        this.createDeck = this.createDeck.bind(this);
-        this.toggleModal = this.toggleModal.bind(this);
-        this.cardFieldsValid = this.cardFieldsValid.bind(this);
-        this.addCardToDeck = this.addCardToDeck.bind(this);
-        this.clear = this.clear.bind(this);
-        this.delete = this.delete.bind(this);
-        this.markPinyin = this.markPinyin.bind(this);
         this.state = {
             english: '',
             chinese: '',
@@ -40,7 +32,7 @@ class FlashcardsDash extends Component {
         };
     }
 
-    async componentDidMount() {
+    componentDidMount = async () => {
         this._isMounted = true;
         window.addEventListener('resize', this.updateWindowDimensions);
 
@@ -49,19 +41,14 @@ class FlashcardsDash extends Component {
         });
     }
 
-    componentWillUnmount() {
+    componentWillUnmount = () => {
         window.removeEventListener('resize', this.updateWindowDimensions);
         this._isMounted = false;
     }
 
-    updateWindowDimensions() {
-        this.setState({
-            width: window.innerWidth,
-            height: window.innerHeight
-        });
-    }
+    updateWindowDimensions = () => this.setState({ width: window.innerWidth, height: window.innerHeight });
 
-    async createDeck() {
+    createDeck = async () => {
         let decks = [];
         if (this.state.deck.name === '' || this.state.deck.name === undefined) {
             generateMessage('error', 'Please provide a name for the deck before adding cards');
@@ -114,7 +101,7 @@ class FlashcardsDash extends Component {
         }
     }
 
-    async addCardToDeck() {
+    addCardToDeck = async () => {
         if (this.cardFieldsValid() === true) {
             let createdCard = {
                 creator: this.props.user.id,
@@ -169,7 +156,7 @@ class FlashcardsDash extends Component {
         }
     };
 
-    cardFieldsValid() {
+    cardFieldsValid = () => {
         let fieldsValid = true;
 
         if (this.state.english === '') {
@@ -198,13 +185,9 @@ class FlashcardsDash extends Component {
         return fieldsValid;
     }
 
-    toggleModal() {
-        this.setState({
-            modalOpen: !this.state.modalOpen
-        });
-    }
+    toggleModal = () => this.setState({ modalOpen: !this.state.modalOpen });
 
-    clear() {
+    clear = () =>
         this.setState({
             deckNameDisabled: false,
             deck: {
@@ -217,9 +200,8 @@ class FlashcardsDash extends Component {
             readyToAddCards: false,
             showModal: false
         });
-    };
 
-    delete() {
+    delete = () =>
         this.setState({
             english: '',
             chinese: '',
@@ -230,9 +212,8 @@ class FlashcardsDash extends Component {
                 cards: []
             },
         });
-    }
 
-    markPinyin(e) {
+    markPinyin = e => {
         let pinyin = e.target.value
         pinyin = pinyin.replace("a1", "ā");
         pinyin = pinyin.replace("a2", "á");
@@ -402,11 +383,6 @@ class FlashcardsDash extends Component {
     };
 }
 
-function mapStateToProps(state) {
-    return {
-        decks: state.deckReducer.decks,
-        user: state.userReducer.user
-    };
-}
+const mapStateToProps = state => ({ decks: state.deckReducer.decks, user: state.userReducer.user });
 
 export default connect(mapStateToProps, { saveCardsToState, saveDecksToState })(FlashcardsDash);

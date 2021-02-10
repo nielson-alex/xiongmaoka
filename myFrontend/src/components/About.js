@@ -5,29 +5,15 @@ import '../css/App.css';                                                        
 
 class About extends Component {
     constructor() {
-        super();
-
-        this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
         this.state = {
             width: window.innerWidth,
             height: window.innerHeight
         };
     }
 
-    componentDidMount() {
-        window.addEventListener('resize', this.updateWindowDimensions);
-    }
-
-    componentWillUnmount() {
-        window.removeEventListener('resize', this.updateWindowDimensions);
-    }
-
-    updateWindowDimensions() {
-        this.setState({
-            width: window.innerWidth,
-            height: window.innerHeight
-        });
-    }
+    componentDidMount = () => window.addEventListener('resize', this.updateWindowDimensions);
+    componentWillUnmount = () => window.removeEventListener('resize', this.updateWindowDimensions);
+    updateWindowDimensions = () => this.setState({ width: window.innerWidth, height: window.innerHeight });
 
     render() {
         let bOrM = this.state.width > 768 ? '-big' : '-mini';

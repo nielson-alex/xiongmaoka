@@ -5,10 +5,9 @@ import { PageHeader, Content } from '../helpers/functional-components/GlobalSubs
 import '../css/App.css';                                                                /* CSS */
 
 class Weather extends Component {
-    constructor(props) {
+    constructor() {
         super();
 
-        this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
         this.state = {
             firstName: '',
             lastName: '',
@@ -21,22 +20,10 @@ class Weather extends Component {
         };
     }
 
-    componentDidMount() {
-        window.addEventListener('resize', this.updateWindowDimensions);
-    }
-
-    componentWillUnmount() {
-        window.removeEventListener('resize', this.updateWindowDimensions);
-    }
-
-    updateWindowDimensions() {
-        this.setState({
-            width: window.innerWidth,
-            height: window.innerHeight
-        });
-    }
-
-    handleGetWeather = () => {
+    componentDidMount = () => window.addEventListener('resize', this.updateWindowDimensions);
+    componentWillUnmount = () => window.removeEventListener('resize', this.updateWindowDimensions);
+    updateWindowDimensions = () => this.setState({ width: window.innerWidth, height: window.innerHeight });
+    handleGetWeather = () =>
         axios.get('/getWeatherAmericanFork').then(res => {
             this.setState({
                 weather: res.data,
@@ -44,7 +31,7 @@ class Weather extends Component {
                 weatherF: (res.data.temperature * 9 / 5) + 32
             });
         });
-    }
+
 
     render() {
         return (
@@ -67,8 +54,4 @@ class Weather extends Component {
     };
 }
 
-const mapStateToProps = state => {
-    return {};
-}
-
-export default connect(mapStateToProps)(Weather);
+export default connect()(Weather);

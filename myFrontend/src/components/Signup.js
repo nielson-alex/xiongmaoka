@@ -11,14 +11,6 @@ class Signup extends Component {
     constructor(props) {
         super(props);
 
-        this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
-        this.handleChange = this.handleChange.bind(this);
-        this.handleKeyDown = this.handleKeyDown.bind(this);
-        this.handleClear = this.handleClear.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
-        this.usernameTaken = this.usernameTaken.bind(this);
-        this.emailTaken = this.emailTaken.bind(this);
-        this.fieldsAreValid = this.fieldsAreValid.bind(this);
         this.state = {
             firstName: '',
             lastName: '',
@@ -30,34 +22,13 @@ class Signup extends Component {
         };
     }
 
-    componentDidMount() {
-        window.addEventListener('resize', this.updateWindowDimensions);
-    }
+    componentDidMount = () => window.addEventListener('resize', this.updateWindowDimensions);
+    componentWillUnmount = () => window.removeEventListener('resize', this.updateWindowDimensions);
+    updateWindowDimensions = () => this.setState({ width: window.innerWidth, height: window.innerHeight });
+    handleChange = e => this.setState({ [e.target.name]: e.target.value });
+    handleKeyDown = e => e.key === 'Enter' ? this.handleSubmit() : null;
 
-    componentWillUnmount() {
-        window.removeEventListener('resize', this.updateWindowDimensions);
-    }
-
-    updateWindowDimensions() {
-        this.setState({
-            width: window.innerWidth,
-            height: window.innerHeight
-        });
-    }
-
-    handleChange(e) {
-        this.setState({
-            [e.target.name]: e.target.value
-        });
-    }
-
-    handleKeyDown(e) {
-        if (e.key === 'Enter') {
-            this.handleSubmit();
-        }
-    }
-
-    handleClear() {
+    handleClear = () =>
         this.setState({
             firstName: '',
             lastName: '',
@@ -65,9 +36,8 @@ class Signup extends Component {
             username: '',
             password: ''
         });
-    }
 
-    async handleSubmit(e) {
+    handleSubmit = async (e) => {
         console.log('entered handle submit');
 
         if (this.fieldsAreValid() === true) {
@@ -98,7 +68,7 @@ class Signup extends Component {
         }
     }
 
-    async emailTaken() {
+    emailTaken = async () => {
         let emailTaken = false;
 
         await fetch('/getEmails', {
@@ -125,7 +95,7 @@ class Signup extends Component {
         return emailTaken;
     }
 
-    async usernameTaken() {
+    usernameTaken = async () => {
         let usernameTaken = false;
         await fetch('/getUsernames', {
             method: 'GET',
@@ -148,7 +118,7 @@ class Signup extends Component {
         return usernameTaken;
     }
 
-    fieldsAreValid() {
+    fieldsAreValid = () => {
         let allFieldsValid = true;
 
         if (this.state.firstName === '') {
@@ -365,11 +335,6 @@ class Signup extends Component {
 //     </div>
 // );
 
-function mapStateToProps(state) {
-    return {
-        user: state.userReducer.user,
-        loggedIn: state.userReducer.user.loggedIn
-    };
-}
+const mapStateToProps = state => ({ user: state.userReducer.user, loggedIn: state.userReducer.user.loggedIn });
 
 export default connect(mapStateToProps, { signup })(Signup);
